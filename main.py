@@ -30,3 +30,6 @@ async def check_url(request: Request):
     if any(word in url for word in blacklist):
         return {"unsafe": True}
     return {"unsafe": False}
+
+app.include_router(control_router)  # Register the control router
+

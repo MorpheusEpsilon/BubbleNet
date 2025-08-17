@@ -1,5 +1,6 @@
 from twilio.rest import Client
 import os
+import urllib.parse
 
 def send_alert_sms(to_number: str, site_url: str, analysis: str):
     account_sid = os.getenv("TWILIO_ACCOUNT_SID")
@@ -8,14 +9,15 @@ def send_alert_sms(to_number: str, site_url: str, analysis: str):
 
     client = Client(account_sid, auth_token)
 
-    control_link = {url}
+    #Encode site_url for safe query string usage
+    encoded_site = urllib.parse.quote(site_url, safe="")
 
     parent_url_base = "http://127.0.0.1:8000/control"
 
     message_body = (
-        f"Alert: Your child accessed a suspicious site"
+        f"Alert: Your child accessed a suspicious site\n"
         f"AI Analysis: {analysis}\n\n"
-        f"Take action: {parent_url_base}?site={control_link}"
+        f"Take action: {parent_url_base}?site={encoded_site}"
     )
 
     client.messages.create(

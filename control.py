@@ -1,12 +1,12 @@
-from fastapi import FastAPI, Request, Form
+from fastapi import Request, Form, APIRouter
 from fastapi.responses import HTMLResponse
 
-app = FastAPI()
+router = APIRouter()
 
 # In-memory store for demo; replace with DB in production
 site_controls = {}  # { "site_url": "blocked"/"allowed" }
 
-@app.get("/control", response_class=HTMLResponse)
+@router.get("/control", response_class=HTMLResponse)
 async def control_page(site: str):
     """Show a page with Allow and Block buttons"""
     return f"""
@@ -23,7 +23,7 @@ async def control_page(site: str):
     </html>
     """
 
-@app.post("/control_action", response_class=HTMLResponse)
+@router.post("/control_action", response_class=HTMLResponse)
 async def control_action(site: str = Form(...), action: str = Form(...)):
     if action not in ["allow", "block"]:
         return HTMLResponse(f"Invalid action: {action}", status_code=400)
