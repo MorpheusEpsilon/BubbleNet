@@ -6,8 +6,16 @@ async function isUrlUnsafe(url) {
       body: JSON.stringify({ url: url }),
       headers: { "Content-Type": "application/json" },
     });
+
+    //Debugging
+    if (!response.ok) {
+      console.error("Backend returned error:", response.status);
+      return false;
+    }
+
     const data = await response.json();
-    return data.unsafe; // expects { "unsafe": true/false }
+    console.log("Backend response:", data); // Debug log
+    return data.unsafe === true; // expects { "unsafe": true/false }
   } catch (err) {
     console.error("Backend error:", err);
     return false;
@@ -17,10 +25,17 @@ async function isUrlUnsafe(url) {
 // Listen for tab updates
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   if (changeInfo.status === "loading" && tab.url.startsWith("http")) {
+    console.log("Checking URL:", tab.url);
+
     const unsafe = await isUrlUnsafe(tab.url);
+
     if (unsafe) {
-      // Block by redirecting to a warning page
+      console.warn("Blocked unsafe site:", tab.url);
+
+      //Redirect to a warning page
       chrome.tabs.update(tabId, { url: chrome.runtime.getURL("blocked.html") });
+
+      //notify user
       chrome.notifications.create({
         type: "basic",
         iconUrl: "icon.jpg",
