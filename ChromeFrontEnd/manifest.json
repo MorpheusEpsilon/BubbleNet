@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Mini Web Antivirus",
+  "version": "1.0",
+  "description": "Blocks unsafe websites using Google Safe Browsing",
+  "permissions": ["tabs", "storage", "notifications", "declarativeNetRequest"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
