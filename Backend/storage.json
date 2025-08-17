@@ -1,8 +1,4 @@
 {
-  "whitelist": [
-    "https://kaotic.com"
-  ],
-  "blacklist": [
-    "https://kaotic.com/"
-  ]
+  "whitelist": [],
+  "blacklist": []
 }
