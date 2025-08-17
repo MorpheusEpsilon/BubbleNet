@@ -1,15 +1,14 @@
-//Send the URL to the backend
+//Send the URL to the backend (Blacklist)
 async function isUrlUnsafe(url) {
   try {
+    //Change for actual server address
     const response = await fetch("http://127.0.0.1:8000/check_url", {
-      //Change for actual server IP address
-
       method: "POST",
       body: JSON.stringify({ url: url }),
       headers: { "Content-Type": "application/json" },
     });
 
-    //Debugging
+    //Debugging help
     if (!response.ok) {
       console.error("Backend returned error:", response.status);
       return false;
@@ -24,9 +23,10 @@ async function isUrlUnsafe(url) {
   }
 }
 
-// AI-powered deep check
+// AI-powered check
 async function isUrlUnsafeAI(url) {
   try {
+    //Change for actual server adress
     const response = await fetch("http://127.0.0.1:8000/analyze-link", {
       method: "POST",
       body: JSON.stringify({ url: url }),
@@ -34,6 +34,7 @@ async function isUrlUnsafeAI(url) {
     });
 
     if (!response.ok) {
+      //In case of error don't block it
       console.error("AI backend returned error:", response.status);
       return {
         unsafe: false,
@@ -61,13 +62,14 @@ async function isUrlUnsafeAI(url) {
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   if (
     changeInfo.status === "loading" &&
-    (tab.url.startsWith("http") || tab.url.startsWith("https"))
+    (tab.url.startsWith("http") || tab.url.startsWith("https")) //Avoid google sites or so
   ) {
     console.log("Checking URL:", tab.url);
 
-    const aiData = await isUrlUnsafeAI(tab.url);
-    const safeData = await isUrlUnsafe(tab.url);
+    const aiData = await isUrlUnsafeAI(tab.url); //Get the AI data
+    const safeData = await isUrlUnsafe(tab.url); //Get the blacklist check
 
+    //Check for both sites
     if (aiData.unsafe || safeData.unsafe) {
       chrome.storage.local.set({
         blockedData: {

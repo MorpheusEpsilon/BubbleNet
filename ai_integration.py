@@ -9,22 +9,21 @@ import re
 load_dotenv()
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
 router = APIRouter()
 
 class LinkRequest(BaseModel):
     url: str
 
-@router.post("/analyze-link")
+@router.post("/analyze-link")                   #Ruta para IA
 async def analyze_link(request: LinkRequest):
     try:
-        # Adult prompt (detailed)
+        # Adult prompt
         adult_prompt = (
             f"Analyze this link for safety, phishing, malware, adult content, give warnings if they're messaging or social media. In less than 50 words, "
             f"or unsafe behavior. Provide a short assessment and a safety score from 0-100:\n{request.url}"
         )
 
-        # Kid-friendly prompt (simple, fun, easy to understand)
+        # Kid-friendly prompt
         kid_prompt = (
             f"Explain whether this link is safe or risky for a 5-15 year old in an easy way. In less than 50 words, but explain why it's dangerous or safe, "
             f"Use very simple words and make it playful:\n{request.url}"
@@ -53,14 +52,14 @@ async def analyze_link(request: LinkRequest):
         kid_analysis = kid_response.choices[0].message.content.strip()
 
 
-        # ✅ Trigger SMS alert to parent
+        # Trigger SMS alert to parent
         send_alert_sms(
             to_number="+525584922217",  # Replace with actual parent number
             site_url=request.url,
             analysis=adult_analysis
         )
 
-        # Extract safety score (first number found)
+        # Extract safety score, first number found.
         score_match = re.search(r"\b(\d{1,3})\b", adult_analysis)
         safety_score = int(score_match.group(1)) if score_match else None
 
