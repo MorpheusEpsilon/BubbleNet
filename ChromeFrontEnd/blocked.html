@@ -1,119 +1,48 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8" />
-<title>Website Blocked</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-<style>
-  * { box-sizing: border-box; margin:0; padding:0; }
+    <head>
+        <meta charset="UTF-8" />
+        <title>Website Blocked</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="blocked.css" />
+    </head>
+    <body>
+        <div class="video-frame">
+            <video autoplay loop muted>
+                <source src="warning.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+            </video>
+        </div>
 
-  body, html {
-    height: 100%;
-    font-family: 'Inter', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: radial-gradient(circle at top left, #ffecd2, #fcb69f);
-    overflow: hidden;
-  }
+        <h1>Access Blocked</h1>
+        <div class="message" id="kid-message">
+            <span class="emoji">🛡️</span> This website isn’t safe for kids!
+        </div>
 
-  .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 90%;
-    max-width: 900px;
-  }
+        <div class="see-more">
+            <button id="toggle-btn">See More</button>
+            <div class="see-more-content" id="more-content">
+                <p>
+                    Some websites can have things that are not good for you,
+                    like lies, scary stuff, or even tricks to take your
+                    information. It’s better to explore safe websites where you
+                    can <strong>learn, play, and grow</strong>.
+                </p>
+                <p>
+                    👉 Want to learn more? Check out
+                    <a
+                        href="https://kids.kiddle.co/Internet_safety"
+                        target="_blank"
+                    >
+                        Internet Safety for Kids </a
+                    >.
+                </p>
+            </div>
+        </div>
 
-  /* Video Styling */
-  .video-frame {
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
-    width: 100%;
-    max-height: 500px;
-    margin-bottom: 25px;
-  }
-
-  video {
-    width: 100%;
-    height: auto;
-    display: block;
-    background: #000;
-  }
-
-  /* Headline */
-  h1 {
-    font-size: 2.5rem;
-    font-weight: 600;
-    margin-bottom: 15px;
-    color: #ff4b5c;
-    text-shadow: 1px 1px rgba(0,0,0,0.2);
-    text-align: center;
-  }
-
-  /* AI-generated message */
-  .message {
-    font-size: 1.4rem;
-    background: rgba(255,255,255,0.9);
-    border-radius: 25px;
-    padding: 20px 30px;
-    max-width: 600px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-    margin-bottom: 20px;
-    text-align: center;
-  }
-
-  .emoji {
-    font-size: 2rem;
-    margin-right: 10px;
-  }
-
-  /* Button */
-  .action-btn {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #111;
-    background: #ffcb05;
-    border: none;
-    border-radius: 20px;
-    padding: 12px 30px;
-    cursor: pointer;
-    transition: transform 0.2s, background 0.3s;
-  }
-
-  .action-btn:hover {
-    background: #ffa500;
-    transform: scale(1.05);
-  }
-
-  .action-btn:active {
-    transform: scale(0.95);
-  }
-
-</style>
-</head>
-<body>
-
-  <div class="container">
-    <div class="video-frame">
-      <video autoplay loop muted>
-        <source src="warning.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-    </div>
-
-    <h1>Oops! 🚫</h1>
-
-    <div class="message" id="kid-message">
-      <span class="emoji">👦👧</span> This website isn’t safe for kids!
-    </div>
-
-    <button class="action-btn" onclick="window.location.href='https://safe-website.com'">
-      Go to Safe Website
-    </button>
-  </div>
-
-  <script src="blocked.js"></script>
-</body>
+        <script src="blocked.js"></script>
+    </body>
 </html>
