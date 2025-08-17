@@ -11,7 +11,7 @@ def send_alert_sms(to_number: str, site_url: str, analysis: str):
     control_link = f"https://yourdomain.com/control?site={site_url}"
 
     message_body = (
-        f"⚠️ Alert: Your child accessed a suspicious site:\n{site_url}\n\n"
+        f"Alert: Your child accessed a suspicious site"
         f"AI Analysis: {analysis}\n\n"
         f"Take action: {control_link}"
     )

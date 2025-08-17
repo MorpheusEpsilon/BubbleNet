@@ -25,7 +25,7 @@ async def analyze_link(request: LinkRequest):
 
         # Kid-friendly prompt (simple, fun, easy to understand)
         kid_prompt = (
-            f"Explain whether this link is safe or risky for a 5-15 year old in an easy way. In less than 50 words, but explain why it's dangerous or safe. "
+            f"Explain whether this link is safe or risky for a 5-15 year old in an easy way. In less than 50 words, but explain why it's dangerous or safe, "
             f"Use very simple words and make it playful:\n{request.url}"
         )
 
@@ -52,11 +52,10 @@ async def analyze_link(request: LinkRequest):
         kid_analysis = kid_response.choices[0].message.content.strip()
 
         # ✅ Trigger SMS alert to parent
-        combined_analysis = f"{adult_analysis}\n\nKid version: {kid_analysis}"
         send_alert_sms(
             to_number="+525584922217",  # Replace with actual parent number
             site_url=request.url,
-            analysis=combined_analysis
+            analysis=adult_analysis
         )
 
         return {
