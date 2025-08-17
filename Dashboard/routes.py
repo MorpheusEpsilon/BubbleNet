@@ -5,7 +5,7 @@ import json, os
 
 router = APIRouter(prefix="/dashboard")  # Prefix added
 templates = Jinja2Templates(directory="Dashboard/templates")
-STORAGE_FILE = "storage.json"
+STORAGE_FILE = "Backend/storage.json"
 
 def read_storage():
     if not os.path.exists(STORAGE_FILE):

@@ -49,7 +49,7 @@
                 </table>
                 <form class="add-form" method="post" action="/dashboard/add">
                     <label for="whitelist-site">Add new site:</label>
-                    <input id="whitelist-site" type="text" name="site" placeholder="e.g., example.com" title="Enter site to whitelist">
+                    <input id="whitelist-site" type="text" name="site" placeholder="e.g., example.com" title="Enter site to whitelist" required>
                     <input type="hidden" name="list_type" value="whitelist">
                     <input type="hidden" name="username" value="{{ username }}">
                     <button type="submit">Add</button>
@@ -81,7 +81,7 @@
                 </table>
                 <form class="add-form" method="post" action="/dashboard/add">
                     <label for="blacklist-site">Add new site:</label>
-                    <input id="blacklist-site" type="text" name="site" placeholder="e.g., badsite.com" title="Enter site to blacklist">
+                    <input id="blacklist-site" type="text" name="site" placeholder="e.g., badsite.com" title="Enter site to blacklist" required>
                     <input type="hidden" name="list_type" value="blacklist">
                     <input type="hidden" name="username" value="{{ username }}">
                     <button type="submit">Add</button>
