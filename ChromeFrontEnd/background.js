@@ -15,7 +15,7 @@ async function isUrlUnsafe(url) {
 
     const data = await response.json();
     console.log("Backend response:", data); // Debug log
-    return data.unsafe === true; // expects { "unsafe": true/false }
+    return data.unsafe; // expects { "unsafe": true/false }
   } catch (err) {
     console.error("Backend error:", err);
     return false;
