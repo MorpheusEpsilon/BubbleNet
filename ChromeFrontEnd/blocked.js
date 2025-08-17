@@ -1,7 +1,15 @@
-// Load the kid_analysis message from storage and show it
-chrome.storage.local.get("blockedData", (data) => {
-  if (data.blockedData && data.blockedData.kid_analysis) {
-    const msgEl = document.getElementById("kid-message");
-    msgEl.innerHTML = `🌟 ${data.blockedData.kid_analysis} 🌟`;
-  }
+// Recuperar datos del almacenamiento y mostrarlos en los textareas
+document.addEventListener("DOMContentLoaded", () => {
+  chrome.storage.local.get("blockedData", (result) => {
+    if (result.blockedData) {
+      const { kid_analysis, adult_analysis } = result.blockedData;
+      document.getElementById("kidBox").value = kid_analysis || "No data";
+      document.getElementById("adultBox").value = adult_analysis || "No data";
+    }
+  });
+
+  // Botón "Ver más"
+  document.getElementById("seeMore").addEventListener("click", () => {
+    window.open("https://www.connectsafely.org/", "_blank");
+  });
 });

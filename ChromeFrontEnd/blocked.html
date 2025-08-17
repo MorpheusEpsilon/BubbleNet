@@ -2,45 +2,28 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <title>Website Blocked</title>
-        <link
-            href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
-            rel="stylesheet"
-        />
-        <link rel="stylesheet" href="blocked.css" />
+        <title>Site Blocked</title>
+        <link rel="stylesheet" href="style.css" />
     </head>
     <body>
-        <div class="video-frame">
-            <video autoplay loop muted>
-                <source src="warning.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-            </video>
-        </div>
-
-        <h1>Access Blocked</h1>
-
-        <div class="message-container">
-            <!-- Kid explanation box -->
-            <div class="message left-box" id="kid-message">
-                <span class="emoji">🛡️</span> This website isn’t safe for kids!
+        <div class="container">
+            <!-- Caja izquierda: explicacion infantil -->
+            <div class="box left-box">
+                <h2>Para Niños</h2>
+                <textarea id="kidBox" readonly></textarea>
             </div>
 
-            <!-- Parent guidance box -->
-            <div class="message right-box">
-                <span class="emoji">👨‍👩‍👧</span> If you still want to see this
-                page, please ask your parents first. They’ll help you make the
-                best choice!
+            <!-- Caja derecha: explicacion adulta -->
+            <div class="box right-box">
+                <h2>Para Padres</h2>
+                <textarea id="adultBox" readonly></textarea>
             </div>
         </div>
 
-        <div class="see-more">
-            <a
-                href="https://digital.emagazines.com/highlights_specials/20240206/index.html?t=e5331f40-178d-4ff1-a0a3-e60312fb00bd&utm_campaign=eg_highlights_specials&utm_source=eg&utm_medium=eg#p2"
-                target="_blank"
-                class="see-more-btn"
-            >
-                See More
-            </a>
+        <div class="footer">
+            <button id="seeMore">Ver más</button>
         </div>
+
+        <script src="blocked.js"></script>
     </body>
 </html>
