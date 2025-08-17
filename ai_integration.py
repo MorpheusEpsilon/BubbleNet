@@ -71,7 +71,8 @@ async def analyze_link(request: LinkRequest):
             "url": request.url,
             "adult_analysis": adult_analysis,
             "kid_analysis": kid_analysis,
-            "unsafe": unsafe  # <-- extension expects this
+            "unsafe": unsafe,  # <-- extension expects this
+            "safety_score": safety_score or 100
         }
 
     except Exception as e:
