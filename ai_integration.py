@@ -81,12 +81,6 @@ async def analyze_link(request: LinkRequest):
             for word in ["phishing", "malware", "unsafe", "danger", "risky", "adult content"]
         )
 
-        #return {
-        #    "url": request.url,
-        #    "adult_analysis": adult_analysis,
-        #    "kid_analysis": kid_analysis
-        #}
-
         return {
             "url": request.url,
             "adult_analysis": adult_analysis,
