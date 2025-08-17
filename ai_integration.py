@@ -9,6 +9,7 @@ import re
 load_dotenv()
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
 router = APIRouter()
 
 class LinkRequest(BaseModel):
@@ -17,21 +18,35 @@ class LinkRequest(BaseModel):
 @router.post("/analyze-link")
 async def analyze_link(request: LinkRequest):
     try:
-        # Adult prompt (detailed + numeric score)
+        # Adult prompt (detailed)
         adult_prompt = (
-            f"Analyze this link for safety, phishing, malware, adult content, and unsafe behavior. "
-            f"Provide a short assessment in less than 50 words AND a numeric safety score from 0-100. "
-            f"Format it like this:\n"
-            f"Assessment: <your text>\nSafety Score: <number>\n{request.url}"
+            f"Analyze this link for safety, phishing, malware, adult content, give warnings if they're messaging or social media. In less than 50 words, "
+            f"or unsafe behavior. Provide a short assessment and a safety score from 0-100:\n{request.url}"
         )
 
         # Kid-friendly prompt (simple, fun, easy to understand)
         kid_prompt = (
-            f"Explain whether this link is safe or risky for a 5-15 year old in an easy way. "
-            f"In less than 50 words, explain why it's dangerous or safe. Make it playful:\n{request.url}"
+            f"Explain whether this link is safe or risky for a 5-15 year old in an easy way. In less than 50 words, but explain why it's dangerous or safe, "
+            f"Use very simple words and make it playful:\n{request.url}"
         )
+        # Safety score prompt
+        safety_score_prompt = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": "You are a helpful security assistant."},
+                {"role": "user", "content": f"Give a safety score (only a number) from 0-100 for this link: {request.url}"}
+            ],
+            temperature=0
+        )
+        safety_score_text = safety_score_prompt.choices[0].message.content.strip()
+        match = re.search(r"\d+", safety_score_text)
+        security_rating = int(match.group(0)) if match else 0
 
-        # Adult analysis + score in one call
+        if security_rating < 50:
+            unsafe = True
+
+        
+        # Adult analysis
         adult_response = client.chat.completions.create(
             model="gpt-4o",
             messages=[
@@ -41,16 +56,6 @@ async def analyze_link(request: LinkRequest):
             temperature=0
         )
         adult_analysis = adult_response.choices[0].message.content.strip()
-
-        # Extract numeric score from adult analysis
-        match = re.search(r"Safety Score[:\s]*([0-9]{1,3})", adult_analysis)
-        security_rating = int(match.group(1)) if match else 0
-
-        # Boolean unsafe: check keywords AND override if score <=50
-        unsafe = any(
-            word in adult_analysis.lower()
-            for word in ["phishing", "malware", "unsafe", "danger", "risky", "adult content"]
-        ) and security_rating > 50
 
         # Kid-friendly analysis
         kid_response = client.chat.completions.create(
@@ -70,12 +75,23 @@ async def analyze_link(request: LinkRequest):
             analysis=adult_analysis
         )
 
+        #Boolean stuff
+        unsafe = any(
+            word in adult_analysis.lower()
+            for word in ["phishing", "malware", "unsafe", "danger", "risky", "adult content"]
+        )
+
+        #return {
+        #    "url": request.url,
+        #    "adult_analysis": adult_analysis,
+        #    "kid_analysis": kid_analysis
+        #}
+
         return {
             "url": request.url,
             "adult_analysis": adult_analysis,
             "kid_analysis": kid_analysis,
-            "unsafe": unsafe,
-            "safety_score": security_rating  # Numeric score consistent with adult analysis
+            "unsafe": unsafe  # <-- extension expects this
         }
 
     except Exception as e:
