@@ -15,9 +15,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount("/static", StaticFiles(directory="ChromeFrontEnd/static"), name="static")
+app.mount("/static", StaticFiles(directory="ParentFrontEnd/static"), name="static")
 
-templates = Jinja2Templates(directory="ChromeFrontEnd/Templates")
+templates = Jinja2Templates(directory="ParentFrontEnd/Templates")
 
 app.include_router(ai_router)  # Register the router
 

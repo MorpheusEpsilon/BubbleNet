@@ -5,7 +5,7 @@ from fastapi.responses import HTMLResponse
 router = APIRouter()
 
 # Templates folder
-templates = Jinja2Templates(directory="ChromeFrontEnd/Templates")
+templates = Jinja2Templates(directory="ParentFrontEnd/Templates")
 
 # In-memory store
 site_controls = {}  # { "site_url": "allowed"/"blocked" }
