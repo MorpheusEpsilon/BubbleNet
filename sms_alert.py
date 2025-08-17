@@ -8,16 +8,18 @@ def send_alert_sms(to_number: str, site_url: str, analysis: str):
 
     client = Client(account_sid, auth_token)
 
-    control_link = f"https://yourdomain.com/control?site={site_url}"
+    control_link = {url}
 
-    #message_body = (
-        #f"Alert: Your child accessed a suspicious site"
-        #f"AI Analysis: {analysis}\n\n"
-        #f"Take action: {control_link}"
-    #)
+    parent_url_base = "http://127.0.0.1:8000/control"
 
-    #client.messages.create(
-        #body=message_body,
-        #from_=from_number,
-        #to=to_number
-    #)
+    message_body = (
+        f"Alert: Your child accessed a suspicious site"
+        f"AI Analysis: {analysis}\n\n"
+        f"Take action: {parent_url_base}?site={control_link}"
+    )
+
+    client.messages.create(
+        body=message_body,
+        from_=from_number,
+        to=to_number
+    )

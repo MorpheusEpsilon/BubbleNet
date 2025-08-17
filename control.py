@@ -1,26 +1,39 @@
-from fastapi import APIRouter, Form
+from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse
 
-router = APIRouter()
+app = FastAPI()
 
-@router.get("/control")
-def control_page(site: str):
-    return HTMLResponse(content=f"""
-        <html>
-            <body>
-                <h2>Manage Access for: {site}</h2>
-                <form action="/control-action" method="post">
-                    <input type="hidden" name="site" value="{site}">
-                    <button name="action" value="allow">Allow</button>
-                    <button name="action" value="timer">Set Timer</button>
-                    <button name="action" value="block">Block</button>
-                </form>
-            </body>
-        </html>
-    """)
+# In-memory store for demo; replace with DB in production
+site_controls = {}  # { "site_url": "blocked"/"allowed" }
 
-@router.post("/control-action")
-def control_action(site: str = Form(...), action: str = Form(...)):
-    # Save to DB or config
-    print(f"Parent chose to {action} for {site}")
-    return {"site": site, "action": action}
+@app.get("/control", response_class=HTMLResponse)
+async def control_page(site: str):
+    """Show a page with Allow and Block buttons"""
+    return f"""
+    <html>
+        <body>
+            <h2>Site Control</h2>
+            <p>Do you want to allow or block <strong>{site}</strong>?</p>
+            <form action="/control_action" method="post">
+                <input type="hidden" name="site" value="{site}">
+                <button type="submit" name="action" value="allow">Allow</button>
+                <button type="submit" name="action" value="block">Block</button>
+            </form>
+        </body>
+    </html>
+    """
+
+@app.post("/control_action", response_class=HTMLResponse)
+async def control_action(site: str = Form(...), action: str = Form(...)):
+    if action not in ["allow", "block"]:
+        return HTMLResponse(f"Invalid action: {action}", status_code=400)
+
+    site_controls[site] = action
+    return f"""
+    <html>
+        <body>
+            <h2>Site Control Updated</h2>
+            <p>The site <strong>{site}</strong> is now <strong>{action}ed</strong>.</p>
+        </body>
+    </html>
+    """
