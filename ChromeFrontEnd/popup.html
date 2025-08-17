@@ -2,24 +2,67 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <title>SafeWeb Extension</title>
+        <title>Bubble Net</title>
         <link rel="stylesheet" href="popup.css" />
     </head>
     <body>
-        <div class="container">
-            <img src="icon.png" alt="SafeWeb Logo" class="logo" />
+        <div class="popup-container">
+            <img src="images/icon.png" alt="Bubble Net Logo" class="logo" />
 
-            <h1>SafeWeb</h1>
-            <p class="status">🟢 Extension is active</p>
+            <h2>Bubble Net</h2>
+            <p id="status-text">
+                Monitor and protect your child’s online activity safely!
+            </p>
 
-            <div class="stats">
-                <p>Sites blocked today: <span id="blockedCount">0</span></p>
-                <p>Last alert: <span id="lastAlert">None</span></p>
+            <div class="info-section">
+                <h3>About Bubble Net</h3>
+                <p>
+                    Bubble Net helps parents control what sites children can
+                    access, sending alerts for risky content while teaching safe
+                    browsing habits.
+                </p>
+
+                <h3>Learn More About Web Safety</h3>
+                <ul>
+                    <li>
+                        <a
+                            href="https://www.lego.com/en-gb/families/this-or-that"
+                            target="_blank"
+                            >LEGO This or That</a
+                        >
+                        – Fun interactive guide for kids.
+                    </li>
+                    <li>
+                        <a
+                            href="https://storage.googleapis.com/gweb-interland.appspot.com/en-us/hub/pdfs/Google_Digital_Wellbeing_Family_Guide.pdf"
+                            target="_blank"
+                            >Google Digital Wellbeing Guide</a
+                        >
+                        – Tips for families on healthy screen time.
+                    </li>
+                    <li>
+                        <a
+                            href="https://beinternetawesome.withgoogle.com/en_us/interland"
+                            target="_blank"
+                            >Be Internet Awesome</a
+                        >
+                        – Learn safe online habits through games.
+                    </li>
+                </ul>
             </div>
 
-            <button id="openPanel">Open Parent Panel</button>
-        </div>
+            <div class="support">
+                <h3>Support</h3>
+                <p>
+                    Website:
+                    <!--Change it in deplynment -->
+                    <a href="http://127.0.0.1:8000 " target="_blank"
+                        >www.bubblenet.com</a
+                    >
+                </p>
+            </div>
 
-        <script src="popup.js"></script>
+            <p class="footer">© 2025 Bubble Net</p>
+        </div>
     </body>
 </html>

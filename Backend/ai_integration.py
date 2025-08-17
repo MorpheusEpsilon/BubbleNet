@@ -1,6 +1,5 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-import os
 from openai import OpenAI
 from dotenv import load_dotenv
 from Backend.config import settings
@@ -99,12 +98,11 @@ async def analyze_link(request: LinkRequest):
         # Boolean logic: unsafe if score < 50
         unsafe = safety_score is not None and safety_score < 50
 
-        if unsafe:
-            to_number = os.getenv("PARENT_PHONE") or "+0000000000"
+        if unsafe and settings.PARENT_PHONE:
             send_alert_sms(
-                to_number,
-                site_url = site_url,
-                analysis = adult_analysis
+                settings.PARENT_PHONE,
+                site_url,
+                adult_analysis
             )
 
         return {
