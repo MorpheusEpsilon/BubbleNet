@@ -1,39 +1,36 @@
-from fastapi import Request, Form, APIRouter
+from fastapi import APIRouter, Request, Form
+from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 
 router = APIRouter()
 
-# In-memory store for demo; replace with DB in production
-site_controls = {}  # { "site_url": "blocked"/"allowed" }
+# Templates folder
+templates = Jinja2Templates(directory="ChromeFrontEnd/Templates")
+
+# In-memory store
+site_controls = {}  # { "site_url": "allowed"/"blocked" }
 
 @router.get("/control", response_class=HTMLResponse)
-async def control_page(site: str):
-    """Show a page with Allow and Block buttons"""
-    return f"""
-    <html>
-        <body>
-            <h2>Site Control</h2>
-            <p>Do you want to allow or block <strong>{site}</strong>?</p>
-            <form action="/control_action" method="post">
-                <input type="hidden" name="site" value="{site}">
-                <button type="submit" name="action" value="allow">Allow</button>
-                <button type="submit" name="action" value="block">Block</button>
-            </form>
-        </body>
-    </html>
+async def control_page(request: Request, site: str):
     """
+    Show page with Allow/Block buttons.
+    Displays current status if already controlled.
+    """
+    return templates.TemplateResponse(
+        "control.html",
+        {"request": request, "site": site, "action": site_controls.get(site)}
+    )
 
 @router.post("/control_action", response_class=HTMLResponse)
-async def control_action(site: str = Form(...), action: str = Form(...)):
+async def control_action(request: Request, site: str = Form(...), action: str = Form(...)):
+    """
+    Update site_controls and re-render the page.
+    """
     if action not in ["allow", "block"]:
         return HTMLResponse(f"Invalid action: {action}", status_code=400)
 
     site_controls[site] = action
-    return f"""
-    <html>
-        <body>
-            <h2>Site Control Updated</h2>
-            <p>The site <strong>{site}</strong> is now <strong>{action}ed</strong>.</p>
-        </body>
-    </html>
-    """
+    return templates.TemplateResponse(
+        "control.html",
+        {"request": request, "site": site, "action": site_controls.get(site)}
+    )

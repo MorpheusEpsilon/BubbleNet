@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Site Control</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>⚠️ Site Control</h2>
+        <p>Do you want to allow or block <strong>{{ site }}</strong>?</p>
+
+        <form action="/control_action" method="post" class="button-form">
+            <input type="hidden" name="site" value="{{ site }}">
+            <button type="submit" name="action" value="allow" class="allow">✅ Allow</button>
+            <button type="submit" name="action" value="block" class="block">⛔ Block</button>
+        </form>
+
+        {% if action %}
+            <p class="status">The site <strong>{{ site }}</strong> is now <strong>{{ action | upper }}ED</strong>.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
