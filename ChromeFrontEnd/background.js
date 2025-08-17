@@ -25,7 +25,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
       chrome.tabs.update(tabId, { url: chrome.runtime.getURL("blocked.html") });
       chrome.notifications.create({
         type: "basic",
-        iconUrl: "icon.png",
+        iconUrl: "icon.jpg",
         title: "Blocked Unsafe Site",
         message: "Access to this website has been blocked for your safety.",
       });
