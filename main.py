@@ -23,9 +23,10 @@ def read_root():
 @app.post("/check_url")
 async def check_url(request: Request):
     body = await request.json()
-    url = body.get("url", "")
+    url = body.get("url", "").lower()
 
-    # Dummy logic — replace with your real safety check
-    if "phishing" in url or "malware" in url:
+    # Dummy logic — expand blacklist
+    blacklist = ["phishing", "malware", "kaotic"]
+    if any(word in url for word in blacklist):
         return {"unsafe": True}
     return {"unsafe": False}
