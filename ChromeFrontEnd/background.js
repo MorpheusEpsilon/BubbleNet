@@ -66,8 +66,13 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   ) {
     console.log("Checking URL:", tab.url);
 
-    const aiData = await isUrlUnsafeAI(tab.url); //Get the AI data
-    const safeData = await isUrlUnsafe(tab.url); //Get the blacklist check
+    //const aiData = await isUrlUnsafeAI(tab.url); //Get the AI data
+    //const safeData = await isUrlUnsafe(tab.url); //Get the blacklist check
+
+    const [aiData, safeData] = await Promise.all([
+      isUrlUnsafeAI(tab.url),
+      isUrlUnsafe(tab.url),
+    ]);
 
     //Check for both sites
     if (aiData.unsafe || safeData.unsafe) {

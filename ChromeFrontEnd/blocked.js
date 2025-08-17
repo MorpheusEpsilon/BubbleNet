@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   chrome.storage.local.get("blockedData", (result) => {
     if (result.blockedData) {
       const { kid_analysis, adult_analysis } = result.blockedData;
-      document.getElementById("kidBox").value = kid_analysis || "No data";
+      document.getElementById("kid-message").value = kid_analysis || "No data";
       document.getElementById("adultBox").value = adult_analysis || "No data";
     }
   });
