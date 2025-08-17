@@ -15,15 +15,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount("/static", StaticFiles(directory="ParentFrontEnd/static"), name="static")
 
-templates = Jinja2Templates(directory="ParentFrontEnd/Templates")
+
+landing_templates = Jinja2Templates(directory="LandingPageFrontEnd")
+app.mount("/landing-static", StaticFiles(directory="LandingPageFrontEnd/static"), name="landing-static")
+
+parent_templates = Jinja2Templates(directory="ParentFrontEnd/Templates")
+app.mount("/static", StaticFiles(directory="ParentFrontEnd/static"), name="static")
 
 app.include_router(ai_router)  # Register the router
 
-@app.get("/")
-def read_root():
-    return {"message": "Hello World"}
+@app.get("/", response_class=HTMLResponse)
+async def read_landing(request: Request):
+    return landing_templates.TemplateResponse("index.html", {"request": request})
 
 @app.post("/check_url")
 async def check_url(request: Request):
