@@ -29,7 +29,7 @@ async def analyze_link(request: LinkRequest):
             f"Explain whether this link is safe or risky for a 5-15 year old in an easy way. In less than 50 words, but explain why it's dangerous or safe, "
             f"Use very simple words and make it playful:\n{request.url}"
         )
-        
+
         # Adult analysis
         adult_response = client.chat.completions.create(
             model="gpt-4o",
@@ -52,6 +52,7 @@ async def analyze_link(request: LinkRequest):
         )
         kid_analysis = kid_response.choices[0].message.content.strip()
 
+
         # ✅ Trigger SMS alert to parent
         send_alert_sms(
             to_number="+525584922217",  # Replace with actual parent number
@@ -59,11 +60,12 @@ async def analyze_link(request: LinkRequest):
             analysis=adult_analysis
         )
 
-        #Boolean stuff
-        unsafe = any(
-            word in adult_analysis.lower()
-            for word in ["phishing", "malware", "unsafe", "danger", "risky", "adult content"]
-        )
+        # Extract safety score (first number found)
+        score_match = re.search(r"\b(\d{1,3})\b", adult_analysis)
+        safety_score = int(score_match.group(1)) if score_match else None
+
+        # Boolean logic: unsafe if score < 50
+        unsafe = safety_score is not None and safety_score < 50
 
         return {
             "url": request.url,
