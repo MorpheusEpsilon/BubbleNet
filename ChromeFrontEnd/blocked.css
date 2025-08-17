@@ -7,7 +7,6 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
     text-align: center;
     color: #333;
 }
@@ -20,6 +19,7 @@ body {
     overflow: hidden;
     max-width: 700px;
     width: 85%;
+    margin-top: 20px;
     margin-bottom: 25px;
     background: #fff;
 }
@@ -29,69 +29,67 @@ video {
     display: block;
 }
 
-/* Headings and message */
+/* Headings */
 h1 {
     font-size: 2.5rem;
-    margin-bottom: 12px;
+    margin-bottom: 20px;
     font-weight: 600;
     color: #d32f2f;
 }
 
+/* Message container with two boxes */
+.message-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap; /* mobile friendly */
+    max-width: 900px;
+}
+
 .message {
-    font-size: 1.3rem;
+    flex: 1;
+    min-width: 250px;
+    font-size: 1.2rem;
     background: #f9f9f9;
     border-radius: 15px;
     padding: 15px 25px;
-    max-width: 600px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
     line-height: 1.5;
+    text-align: left;
+}
+
+.left-box {
+    border-left: 6px solid #4a90e2;
+}
+
+.right-box {
+    border-left: 6px solid #ff9800;
 }
 
 .emoji {
     font-size: 1.5rem;
-    margin-right: 8px;
+    margin-right: 6px;
 }
 
-/* See More Section */
+/* See More button */
 .see-more {
-    margin-top: 20px;
-    max-width: 600px;
-    text-align: left;
+    margin-top: 25px;
 }
 
-.see-more button {
+.see-more-btn {
+    display: inline-block;
     background: #4a90e2;
     color: white;
     border: none;
     border-radius: 10px;
-    padding: 10px 18px;
+    padding: 12px 20px;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
+    text-decoration: none;
     transition: background 0.3s ease;
 }
 
-.see-more button:hover {
+.see-more-btn:hover {
     background: #357abd;
-}
-
-.see-more-content {
-    display: none;
-    margin-top: 15px;
-    padding: 15px 20px;
-    border-left: 5px solid #4a90e2;
-    background: #f0f7ff;
-    border-radius: 10px;
-    font-size: 1rem;
-    line-height: 1.5;
-}
-
-.see-more-content a {
-    color: #4a90e2;
-    text-decoration: none;
-    font-weight: 600;
-}
-
-.see-more-content a:hover {
-    text-decoration: underline;
 }
