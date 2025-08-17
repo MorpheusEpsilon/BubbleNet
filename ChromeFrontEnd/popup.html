@@ -1,19 +1,25 @@
 <!doctype html>
-<html>
+<html lang="en">
     <head>
-        <title>Mini Web Antivirus</title>
-        <style>
-            body {
-                font-family: Arial;
-                padding: 10px;
-            }
-            h2 {
-                font-size: 16px;
-            }
-        </style>
+        <meta charset="UTF-8" />
+        <title>SafeWeb Extension</title>
+        <link rel="stylesheet" href="popup.css" />
     </head>
     <body>
-        <h2>Web Antivirus Active</h2>
-        <p>Unsafe sites will be blocked automatically.</p>
+        <div class="container">
+            <img src="icon.png" alt="SafeWeb Logo" class="logo" />
+
+            <h1>SafeWeb</h1>
+            <p class="status">🟢 Extension is active</p>
+
+            <div class="stats">
+                <p>Sites blocked today: <span id="blockedCount">0</span></p>
+                <p>Last alert: <span id="lastAlert">None</span></p>
+            </div>
+
+            <button id="openPanel">Open Parent Panel</button>
+        </div>
+
+        <script src="popup.js"></script>
     </body>
 </html>
