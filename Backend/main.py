@@ -1,10 +1,12 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
-from ai_integration import router as ai_router  # Import the ai router
-from control import router as control_router  # Import the control router
+from Backend.ai_integration import router as ai_router  # Import the ai router
+from Backend.control import router as control_router  # Import the control router
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+
+
 app = FastAPI()
 
 app.add_middleware(

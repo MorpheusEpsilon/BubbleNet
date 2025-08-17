@@ -3,7 +3,7 @@ from pydantic import BaseModel
 import os
 from openai import OpenAI
 from dotenv import load_dotenv
-from sms_alert import send_alert_sms  # ✅ Import SMS trigger
+from Backend.sms_alert import send_alert_sms  # ✅ Import SMS trigger
 import re
 
 load_dotenv()
