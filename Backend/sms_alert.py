@@ -19,14 +19,14 @@ def send_alert_sms(to_number: str, site_url: str, analysis: str):
     encoded_site = urllib.parse.quote(site_url, safe="")
     parent_url_base = "http://127.0.0.1:8000/control"
 
-    message_body = (
-        f"Alert: Your child accessed a suspicious site\n"
-        f"AI Analysis: {analysis}\n\n"
-        f"Take action: {parent_url_base}?site={encoded_site}"
-    )
+    #message_body = (
+    #    f"Alert: Your child accessed a suspicious site\n"
+    #    f"AI Analysis: {analysis}\n\n"
+    #    f"Take action: {parent_url_base}?site={encoded_site}"
+    #)
 
-    client.messages.create(
-       body = message_body,
-       from_ = settings.TWILIO_PHONE_NUMBER,
-       to = to_number
-    )
+    #client.messages.create(
+    #   body = message_body,
+    #   from_ = settings.TWILIO_PHONE_NUMBER,
+    #   to = to_number
+    #)

@@ -29,11 +29,11 @@ async def analyze_link(request: LinkRequest):
         }
     elif site_url in storage.get_blacklist():
         # Auto-send SMS alert
-        to_number = os.getenv("PARENT_PHONE") or "+00000"
+        to_number = settings.PARENT_PHONE or "+00000"
         send_alert_sms(
-        to_number,  # Or settings.PARENT_PHONE
-        site_url = site_url,
-        analysis="Site is blacklisted ⛔"
+            to_number,  # Or settings.PARENT_PHONE
+            site_url = site_url,
+            analysis="Site is blacklisted ⛔"
         )
         return {
             "url": site_url,
@@ -82,15 +82,6 @@ async def analyze_link(request: LinkRequest):
 
 
         #----Tercer acto:
-
-        # Trigger SMS alert to parent
-        #send_alert_sms(
-        #    to_number="+525584922217",  # Replace with actual parent number
-        #    site_url=request.url,
-        #    analysis=adult_analysis
-        #)
-        #send_alert_sms(settings.PARENT_PHONE, request.url, adult_analysis)
-
         # Extract safety score, first number found.
         score_match = re.search(r"\b(\d{1,3})\b", adult_analysis)
         safety_score = int(score_match.group(1)) if score_match else None
@@ -98,12 +89,12 @@ async def analyze_link(request: LinkRequest):
         # Boolean logic: unsafe if score < 50
         unsafe = safety_score is not None and safety_score < 50
 
-        if unsafe and settings.PARENT_PHONE:
-            send_alert_sms(
-                settings.PARENT_PHONE,
-                site_url,
-                adult_analysis
-            )
+        #if unsafe and settings.PARENT_PHONE:
+        #    send_alert_sms(
+        #        settings.PARENT_PHONE,
+        #        site_url,
+        #        adult_analysis
+        #    )
 
         return {
             "url": request.url,
