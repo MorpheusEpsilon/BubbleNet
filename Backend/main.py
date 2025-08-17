@@ -41,5 +41,5 @@ async def check_url(request: Request):
     body = await request.json()
     url = body.get("url", "").lower()
 
-    # Dummy logic — expand blacklist
+    # Dummy logic - dummy logic
     return {"unsafe": any(word in url for word in settings.BLACKLIST)}

@@ -1,10 +1,14 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-import re
+import os
 from openai import OpenAI
+from dotenv import load_dotenv
 from Backend.config import settings
 from Backend.sms_alert import send_alert_sms
+from . import storage
+import re
 
+load_dotenv()
 router = APIRouter()
 client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
@@ -14,6 +18,34 @@ class LinkRequest(BaseModel):
 
 @router.post("/analyze-link")                   #Ruta para IA
 async def analyze_link(request: LinkRequest):
+    site_url = request.url.lower()
+    #----Primer Acto:
+    if site_url in storage.get_whitelist():
+        return {
+            "url": site_url,
+            "adult_analysis": "Site is whitelisted ✅",
+            "kid_analysis": "Safe for kids ✅",
+            "unsafe": False,
+            "safety_score": 100
+        }
+    elif site_url in storage.get_blacklist():
+        # Auto-send SMS alert
+        to_number = os.getenv("PARENT_PHONE") or "+00000"
+        send_alert_sms(
+        to_number,  # Or settings.PARENT_PHONE
+        site_url = site_url,
+        analysis="Site is blacklisted ⛔"
+        )
+        return {
+            "url": site_url,
+            "adult_analysis": "Site is blacklisted ⛔",
+            "kid_analysis": "Not safe for kids ⛔",
+            "unsafe": True,
+            "safety_score": 0
+        }
+
+
+    #----Segundo Acto:
     try:
         # Adult prompt
         adult_prompt = (
@@ -50,13 +82,15 @@ async def analyze_link(request: LinkRequest):
         kid_analysis = kid_response.choices[0].message.content.strip()
 
 
+        #----Tercer acto:
+
         # Trigger SMS alert to parent
         #send_alert_sms(
         #    to_number="+525584922217",  # Replace with actual parent number
         #    site_url=request.url,
         #    analysis=adult_analysis
         #)
-        send_alert_sms(settings.PARENT_PHONE, request.url, adult_analysis)
+        #send_alert_sms(settings.PARENT_PHONE, request.url, adult_analysis)
 
         # Extract safety score, first number found.
         score_match = re.search(r"\b(\d{1,3})\b", adult_analysis)
@@ -64,6 +98,14 @@ async def analyze_link(request: LinkRequest):
 
         # Boolean logic: unsafe if score < 50
         unsafe = safety_score is not None and safety_score < 50
+
+        if unsafe:
+            to_number = os.getenv("PARENT_PHONE") or "+0000000000"
+            send_alert_sms(
+                to_number,
+                site_url = site_url,
+                analysis = adult_analysis
+            )
 
         return {
             "url": request.url,
