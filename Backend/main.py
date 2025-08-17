@@ -7,6 +7,8 @@ from ParentLogin.routes import router as parent_router
 from Backend.ai_integration import router as ai_router  # Import the ai router
 from Backend.control import router as control_router  # Import the control router
 from Backend.config import settings
+from Dashboard.routes import router as dashboard_router
+
 
 
 app = FastAPI()
@@ -30,10 +32,13 @@ app.mount("/parent-static", StaticFiles(directory="ParentLogin/static"), name="p
 parent_templates = Jinja2Templates(directory="ParentFrontEnd/Templates")
 app.mount("/static", StaticFiles(directory="ParentFrontEnd/static"), name="static")
 
+app.mount("/dashboard-static", StaticFiles(directory="Dashboard/static"), name="dashboard-static")
+
 #Routers
 app.include_router(ai_router)  # Register the router
 app.include_router(control_router)
 app.include_router(parent_router)
+app.include_router(dashboard_router)
 
 @app.get("/", response_class=HTMLResponse)
 async def read_landing(request: Request):

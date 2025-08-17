@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/dashboard-static/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Welcome & Instructions -->
+        <div class="welcome-section">
+            <h1>
+                {% if username %}
+                    Welcome, {{ username }}!
+                {% else %}
+                    Welcome!
+                {% endif %}
+            </h1>
+            <p class="instructions">
+                Here you can manage your <strong>Whitelist</strong> and <strong>Blacklist</strong> of websites. 
+                Use the "Add" buttons to include a new site, and "Remove" to delete a site from a list.
+            </p>
+        </div>
+
+        <!-- Tables Section -->
+        <div class="tables">
+            <!-- Whitelist Table -->
+            <div class="table-card">
+                <h2>Whitelist</h2>
+                <p class="table-instructions">Sites your users are always allowed to access:</p>
+                <table>
+                    <tr>
+                        <th>Site</th>
+                        <th>Action</th>
+                    </tr>
+                    {% for site in whitelist %}
+                    <tr>
+                        <td>{{ site }}</td>
+                        <td>
+                            <form class="remove-form" method="post" action="/dashboard/remove">
+                                <input type="hidden" name="site" value="{{ site }}">
+                                <input type="hidden" name="list_type" value="whitelist">
+                                <input type="hidden" name="username" value="{{ username }}">
+                                <button type="submit" title="Remove this site from whitelist">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <form class="add-form" method="post" action="/dashboard/add">
+                    <label for="whitelist-site">Add new site:</label>
+                    <input id="whitelist-site" type="text" name="site" placeholder="e.g., example.com" title="Enter site to whitelist">
+                    <input type="hidden" name="list_type" value="whitelist">
+                    <input type="hidden" name="username" value="{{ username }}">
+                    <button type="submit">Add</button>
+                </form>
+            </div>
+
+            <!-- Blacklist Table -->
+            <div class="table-card">
+                <h2>Blacklist</h2>
+                <p class="table-instructions">Sites that are blocked for your users:</p>
+                <table>
+                    <tr>
+                        <th>Site</th>
+                        <th>Action</th>
+                    </tr>
+                    {% for site in blacklist %}
+                    <tr>
+                        <td>{{ site }}</td>
+                        <td>
+                            <form class="remove-form" method="post" action="/dashboard/remove">
+                                <input type="hidden" name="site" value="{{ site }}">
+                                <input type="hidden" name="list_type" value="blacklist">
+                                <input type="hidden" name="username" value="{{ username }}">
+                                <button type="submit" title="Remove this site from blacklist">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <form class="add-form" method="post" action="/dashboard/add">
+                    <label for="blacklist-site">Add new site:</label>
+                    <input id="blacklist-site" type="text" name="site" placeholder="e.g., badsite.com" title="Enter site to blacklist">
+                    <input type="hidden" name="list_type" value="blacklist">
+                    <input type="hidden" name="username" value="{{ username }}">
+                    <button type="submit">Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="/dashboard-static/dashboard.js"></script>
+</body>
+</html>
+

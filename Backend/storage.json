@@ -1,14 +1,5 @@
 {
-<<<<<<< HEAD
-  "whitelist": [
-    ""
-  ],
-  "blacklist": [
-    "https://kaotic.com/"
-  ]
-}
-=======
   "whitelist": [],
   "blacklist": []
 }
->>>>>>> 0b3e1008c3245108c8c4da6a1e4c81ddb488d9a6
+

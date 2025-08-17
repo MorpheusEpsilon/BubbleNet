@@ -1,0 +1,143 @@
+/* General body styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to right, #f0f4f8, #d9e2ec);
+    margin: 0;
+    padding: 30px;
+    color: #1f2937;
+}
+
+/* Container */
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Welcome & Instructions */
+.welcome-section {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.welcome-section h1 {
+    font-size: 2.5rem;
+    color: #0f172a;
+    letter-spacing: 1px;
+}
+
+.instructions {
+    font-size: 1.1rem;
+    color: #475569;
+    margin-top: 10px;
+}
+
+/* Tables Section */
+.tables {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    flex-wrap: wrap;
+}
+
+/* Card-style table containers */
+.table-card {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+    flex: 1 1 400px;
+    min-width: 350px;
+}
+
+.table-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Table styles */
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+}
+
+th {
+    background: linear-gradient(90deg, #4f46e5, #6366f1);
+    color: #ffffff;
+    font-weight: 600;
+    border-radius: 8px 8px 0 0;
+}
+
+td {
+    border-bottom: 1px solid #e2e8f0;
+}
+
+/* Section headings and table instructions */
+h2 {
+    margin-bottom: 10px;
+    font-size: 1.6rem;
+    color: #1e293b;
+}
+
+.table-instructions {
+    font-size: 0.95rem;
+    color: #64748b;
+    margin-bottom: 15px;
+}
+
+/* Buttons */
+button {
+    background: linear-gradient(to right, #4f46e5, #6366f1);
+    color: white;
+    border: none;
+    padding: 7px 14px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: background 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background: linear-gradient(to right, #3730a3, #4f46e5);
+    transform: translateY(-2px);
+}
+
+/* Input boxes */
+input[type="text"] {
+    padding: 8px 10px;
+    width: 70%;
+    margin-right: 8px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"]:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 8px rgba(99, 102, 241, 0.3);
+    outline: none;
+}
+
+/* Add/remove form spacing */
+.add-form, .remove-form {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+    .tables {
+        flex-direction: column;
+        align-items: center;
+    }
+}

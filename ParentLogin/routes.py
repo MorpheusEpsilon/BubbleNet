@@ -28,7 +28,7 @@ async def parent_login_post(
 ):
     if username == PARENT_USERNAME and password == PARENT_PASSWORD:
         # Redirect to control page after successful login
-        return RedirectResponse(url="/control?site=", status_code=303)
+        return RedirectResponse(url=f"/dashboard?username={username}", status_code=303)
     else:
         return templates.TemplateResponse(
             "parent_login.html",
