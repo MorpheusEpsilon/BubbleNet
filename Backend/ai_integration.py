@@ -5,10 +5,6 @@ from openai import OpenAI
 from Backend.config import settings
 from Backend.sms_alert import send_alert_sms
 
-#from dotenv import load_dotenv
-#from Backend.sms_alert import send_alert_sms
-#import os
-
 router = APIRouter()
 client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
