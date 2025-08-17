@@ -3,7 +3,7 @@ const API_KEY = "AIzaSyBeiyXNxUd_4tOCFAXvebDDCv_BPpx-jdI";
 //Send the URL to the backend
 async function isUrlUnsafe(url) {
   try {
-    const response = await fetch("http://localhost:5000/check_url", {
+    const response = await fetch("http://127.0.0.1:8000/check_url", {
       method: "POST",
       body: JSON.stringify({ url: url }),
       headers: { "Content-Type": "application/json" },
