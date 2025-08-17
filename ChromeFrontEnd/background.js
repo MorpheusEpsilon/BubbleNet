@@ -2,6 +2,8 @@
 async function isUrlUnsafe(url) {
   try {
     const response = await fetch("http://127.0.0.1:8000/check_url", {
+      //Change for actual server IP address
+
       method: "POST",
       body: JSON.stringify({ url: url }),
       headers: { "Content-Type": "application/json" },
@@ -24,13 +26,25 @@ async function isUrlUnsafe(url) {
 
 // Listen for tab updates
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
-  if (changeInfo.status === "loading" && tab.url.startsWith("http")) {
+  if (
+    changeInfo.status === "loading" &&
+    (tab.url.startsWith("http") || tab.url.startsWith("https"))
+  ) {
     console.log("Checking URL:", tab.url);
 
     const unsafe = await isUrlUnsafe(tab.url);
 
     if (unsafe) {
       console.warn("Blocked unsafe site:", tab.url);
+
+      //Recieve the AI feedback data
+      chrome.storage.local.set({
+        blockedData: {
+          url: tab.url,
+          adult_analysis: data.adult_analysis,
+          kid_analysis: data.kid_analysis,
+        },
+      });
 
       //Redirect to a warning page
       chrome.tabs.update(tabId, { url: chrome.runtime.getURL("blocked.html") });
