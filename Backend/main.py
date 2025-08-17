@@ -15,8 +15,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-
 landing_templates = Jinja2Templates(directory="LandingPageFrontEnd")
 app.mount("/landing-static", StaticFiles(directory="LandingPageFrontEnd/static"), name="landing-static")
 
@@ -45,4 +43,3 @@ app.include_router(control_router)
 from fastapi import APIRouter, Request
 
 router = APIRouter()
-
