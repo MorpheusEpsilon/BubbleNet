@@ -1,14 +1,17 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
-from Backend.ai_integration import router as ai_router  # Import the ai router
-from Backend.control import router as control_router  # Import the control router
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
+from Backend.ai_integration import router as ai_router  # Import the ai router
+from Backend.control import router as control_router  # Import the control router
+from Backend.config import settings
+
 
 app = FastAPI()
 
+#CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # for testing, allow all. Later you can restrict
@@ -17,13 +20,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+#Static and templates
 landing_templates = Jinja2Templates(directory="LandingPageFrontEnd")
 app.mount("/landing-static", StaticFiles(directory="LandingPageFrontEnd/static"), name="landing-static")
 
 parent_templates = Jinja2Templates(directory="ParentFrontEnd/Templates")
 app.mount("/static", StaticFiles(directory="ParentFrontEnd/static"), name="static")
 
+#Routers
 app.include_router(ai_router)  # Register the router
+app.include_router(control_router)
 
 @app.get("/", response_class=HTMLResponse)
 async def read_landing(request: Request):
@@ -35,13 +42,4 @@ async def check_url(request: Request):
     url = body.get("url", "").lower()
 
     # Dummy logic — expand blacklist
-    blacklist = ["phishing", "malware", "kaotic"]
-    if any(word in url for word in blacklist):
-        return {"unsafe": True}
-    return {"unsafe": False}
-
-app.include_router(control_router)
-
-from fastapi import APIRouter, Request
-
-router = APIRouter()
+    return {"unsafe": any(word in url for word in settings.BLACKLIST)}

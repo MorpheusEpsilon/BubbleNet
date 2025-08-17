@@ -1,15 +1,17 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-import os
-from openai import OpenAI
-from dotenv import load_dotenv
-from Backend.sms_alert import send_alert_sms  # ✅ Import SMS trigger
 import re
+from openai import OpenAI
+from Backend.config import settings
+from Backend.sms_alert import send_alert_sms
 
-load_dotenv()
+#from dotenv import load_dotenv
+#from Backend.sms_alert import send_alert_sms
+#import os
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 router = APIRouter()
+client = OpenAI(api_key=settings.OPENAI_API_KEY)
+
 
 class LinkRequest(BaseModel):
     url: str
@@ -53,11 +55,12 @@ async def analyze_link(request: LinkRequest):
 
 
         # Trigger SMS alert to parent
-        send_alert_sms(
-            to_number="+525584922217",  # Replace with actual parent number
-            site_url=request.url,
-            analysis=adult_analysis
-        )
+        #send_alert_sms(
+        #    to_number="+525584922217",  # Replace with actual parent number
+        #    site_url=request.url,
+        #    analysis=adult_analysis
+        #)
+        send_alert_sms(settings.PARENT_PHONE, request.url, adult_analysis)
 
         # Extract safety score, first number found.
         score_match = re.search(r"\b(\d{1,3})\b", adult_analysis)

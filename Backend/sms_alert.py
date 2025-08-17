@@ -1,17 +1,18 @@
 from twilio.rest import Client
-import os
+from Backend.config import settings
 import urllib.parse
 
 def send_alert_sms(to_number: str, site_url: str, analysis: str):
-    account_sid = os.getenv("TWILIO_ACCOUNT_SID")
-    auth_token = os.getenv("TWILIO_AUTH_TOKEN")
-    from_number = os.getenv("TWILIO_PHONE_NUMBER")
+    #account_sid = os.getenv("TWILIO_ACCOUNT_SID")
+    #auth_token = os.getenv("TWILIO_AUTH_TOKEN")
+    #from_number = os.getenv("TWILIO_PHONE_NUMBER")
 
-    client = Client(account_sid, auth_token)
+    #client = Client(account_sid, auth_token)
+
+    client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
 
     #Encode site_url for safe query string usage
     encoded_site = urllib.parse.quote(site_url, safe="")
-
     parent_url_base = "http://127.0.0.1:8000/control"
 
     #message_body = (

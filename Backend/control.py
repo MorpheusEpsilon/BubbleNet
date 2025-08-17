@@ -7,7 +7,7 @@ router = APIRouter()
 # Templates folder
 templates = Jinja2Templates(directory="ParentFrontEnd/Templates")
 
-# In-memory store
+# In-memory store (DB later)
 site_controls = {}  # { "site_url": "allowed"/"blocked" }
 
 @router.get("/control", response_class=HTMLResponse)
