@@ -1,5 +1,3 @@
-const API_KEY = "AIzaSyBeiyXNxUd_4tOCFAXvebDDCv_BPpx-jdI";
-
 //Send the URL to the backend
 async function isUrlUnsafe(url) {
   try {
