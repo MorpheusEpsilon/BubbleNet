@@ -39,7 +39,7 @@ async def analyze_link(request: LinkRequest):
         return {
             "url": site_url,
             "adult_analysis": "Site is blacklisted ⛔",
-            "kid_analysis": "Not safe for kids ⛔",
+            "kid_analysis": "Woah there!! This site isn't always a good a idea⛔",
             "unsafe": True,
             "safety_score": 0
         }
