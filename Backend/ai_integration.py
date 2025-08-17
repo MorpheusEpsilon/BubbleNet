@@ -1,3 +1,7 @@
+#AI Integration Router
+# Uses Open AI to analyze URL safety for parents (detailed) and kids (playful)
+# Checks the whitelist and blacklist and handles the safety score for every page
+
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from openai import OpenAI

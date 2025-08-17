@@ -1,3 +1,4 @@
+#Key handling from the .env
 from dataclasses import dataclass
 import os
 from dotenv import load_dotenv
@@ -19,5 +20,5 @@ settings = Settings(
     TWILIO_AUTH_TOKEN=os.getenv("TWILIO_AUTH_TOKEN"),
     TWILIO_PHONE_NUMBER=os.getenv("TWILIO_PHONE_NUMBER"),
     PARENT_PHONE=os.getenv("PARENT_PHONE"),
-    BLACKLIST=["phishing", "malware", "kaotic"]
+    BLACKLIST=["phishing", "malware", "kaotic"]             #Only for development/ Hard Blacklist
 )

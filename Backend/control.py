@@ -8,9 +8,6 @@ router = APIRouter()
 # Templates folder
 templates = Jinja2Templates(directory="ParentFrontEnd/Templates")
 
-## In-memory store (DB later)
-##site_controls = {}  # { "site_url": "allowed"/"blocked" }
-
 @router.get("/control", response_class=HTMLResponse)
 async def control_page(request: Request, site: str):
     """
@@ -30,6 +27,8 @@ async def control_page(request: Request, site: str):
         {"request": request, "site": site, "action": action}
     )
 
+
+#Handles the parent's page allow/block button
 @router.post("/control_action", response_class=HTMLResponse)
 async def control_action(request: Request, site: str = Form(...), action: str = Form(...)):
     """
@@ -41,14 +40,18 @@ async def control_action(request: Request, site: str = Form(...), action: str = 
     # Update storage lists
     if action == "allow":
         storage.add_to_whitelist(site)
+
         # remove from blacklist if it exists
         if site in storage.get_blacklist():
             bl = storage.get_blacklist()
             bl.remove(site)
+
             # Save updated blacklist
             storage._save_data({"whitelist": storage.get_whitelist(), "blacklist": bl})
+
     else:  # block
         storage.add_to_blacklist(site)
+
         # remove from whitelist if it exists
         if site in storage.get_whitelist():
             wl = storage.get_whitelist()

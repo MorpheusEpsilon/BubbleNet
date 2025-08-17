@@ -1,7 +1,7 @@
 //Send the URL to the backend (Blacklist)
 async function isUrlUnsafe(url) {
   try {
-    //Change for actual server address
+    //later change for actual server address
     const response = await fetch("http://127.0.0.1:8000/check_url", {
       method: "POST",
       body: JSON.stringify({ url: url }),

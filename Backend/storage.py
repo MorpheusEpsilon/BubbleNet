@@ -1,3 +1,6 @@
+#Use for demo handling the "database" in this case a 'local' JSON
+# Replace for a proper DB
+
 import json
 from pathlib import Path
 
@@ -7,13 +10,13 @@ DATA_FILE = Path(__file__).parent / "storage.json"
 # Default structure if no file exists
 _default_data = {"whitelist": [], "blacklist": []}
 
-def _load_data():
+def _load_data():   #Load data
     if DATA_FILE.exists():
         with open(DATA_FILE, "r") as f:
             return json.load(f)
     return _default_data.copy()
 
-def _save_data(data):
+def _save_data(data):   #Save data
     with open(DATA_FILE, "w") as f:
         json.dump(data, f, indent=2)
 
@@ -23,6 +26,7 @@ def save_data():
     _save_data({"whitelist": get_whitelist(), "blacklist": get_blacklist()})
 
 # Public API
+# Handling the whitelist and blacklist calls
 def get_whitelist():
     return _load_data()["whitelist"]
 

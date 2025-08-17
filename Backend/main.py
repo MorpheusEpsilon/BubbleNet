@@ -16,7 +16,7 @@ app = FastAPI()
 #CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # for testing, allow all. Later you can restrict
+    allow_origins=["*"],  #for testing
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -44,12 +44,11 @@ app.include_router(dashboard_router)
 async def read_landing(request: Request):
     return landing_templates.TemplateResponse("index.html", {"request": request})
 
+#Handles the URL request
 @app.post("/check_url")
 async def check_url(request: Request):
     body = await request.json()
     url = body.get("url", "").lower()
 
-    # Dummy logic - dummy logic
+    # Dummy logic - for early hard Blacklist
     return {"unsafe": any(word in url for word in settings.BLACKLIST)}
-
-
