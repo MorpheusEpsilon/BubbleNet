@@ -1,8 +1,12 @@
 {
   "manifest_version": 3,
-  "name": "Mini Web Antivirus",
+  "name": "Bubble Net",
   "version": "2.0",
-  "description": "Blocks unsafe websites using Google Safe Browsing",
+  "description": "Blocks unsafe websites and keeps your kids safe online.",
+  "icons": {
+    "48": "icon48.png",
+    "128": "icon128.png"  
+  },
   "permissions": [
     "tabs",
     "storage",
@@ -16,5 +20,12 @@
   },
   "action": {
     "default_popup": "popup.html"
-  }
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["blocked.html", "blocked.js", "blocked.css"],
+      "matches": ["<all_urls>"]
+    }
+  ]
 }
+
