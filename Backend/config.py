@@ -1,18 +1,23 @@
+from dataclasses import dataclass
 import os
 from dotenv import load_dotenv
-from pydantic_settings import BaseSettings
 
 load_dotenv()
 
-class Settings(BaseSettings):
-    OPENAI_API_KEY: str
-    TWILIO_ACCOUNT_SID: str
-    TWILIO_AUTH_TOKEN: str
-    TWILIO_PHONE_NUMBER: str
-    PARENT_PHONE: str
-    BLACKLIST: list[str] = ["phishing", "malware", "kaotic"]
+@dataclass
+class Settings:
+    OPENAI_API_KEY: str | None
+    TWILIO_ACCOUNT_SID: str | None
+    TWILIO_AUTH_TOKEN: str | None
+    TWILIO_PHONE_NUMBER: str | None
+    PARENT_PHONE: str | None
+    BLACKLIST: list[str]
 
-    class Config:
-        env_file = ".env"
-
-settings = Settings()
+settings = Settings(
+    OPENAI_API_KEY=os.getenv("OPENAI_API_KEY"),
+    TWILIO_ACCOUNT_SID=os.getenv("TWILIO_ACCOUNT_SID"),
+    TWILIO_AUTH_TOKEN=os.getenv("TWILIO_AUTH_TOKEN"),
+    TWILIO_PHONE_NUMBER=os.getenv("TWILIO_PHONE_NUMBER"),
+    PARENT_PHONE=os.getenv("PARENT_PHONE"),
+    BLACKLIST=["phishing", "malware", "kaotic"]
+)
