@@ -35,7 +35,12 @@ async function isUrlUnsafeAI(url) {
 
     if (!response.ok) {
       console.error("AI backend returned error:", response.status);
-      return { unsafe: false, score: 100, adult_analysis: "", kid_analysis: "" };
+      return {
+        unsafe: false,
+        score: 100,
+        adult_analysis: "",
+        kid_analysis: "",
+      };
     }
 
     const data = await response.json();
@@ -52,7 +57,6 @@ async function isUrlUnsafeAI(url) {
   }
 }
 
-
 // Listen for tab updates
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   if (
@@ -61,17 +65,16 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   ) {
     console.log("Checking URL:", tab.url);
 
-    const unsafe = await isUrlUnsafeAI(tab.url);
+    const unsafe = await isUrlUnsafe(tab.url);
 
     if (unsafe) {
-      console.warn("Blocked unsafe site:", tab.url);
+      const aiData = await isUrlUnsafeAI(tab.url); // only call AI when unsafe
 
-      //Recieve the AI feedback data
       chrome.storage.local.set({
         blockedData: {
           url: tab.url,
-          adult_analysis: data.adult_analysis,
-          kid_analysis: data.kid_analysis,
+          adult_analysis: aiData.adult_analysis,
+          kid_analysis: aiData.kid_analysis,
         },
       });
 
