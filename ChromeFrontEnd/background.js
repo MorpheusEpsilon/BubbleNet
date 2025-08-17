@@ -61,7 +61,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   ) {
     console.log("Checking URL:", tab.url);
 
-    const unsafe = await isUrlUnsafeIA(tab.url);
+    const unsafe = await isUrlUnsafeAI(tab.url);
 
     if (unsafe) {
       console.warn("Blocked unsafe site:", tab.url);
