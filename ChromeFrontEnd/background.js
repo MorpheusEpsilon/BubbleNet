@@ -24,6 +24,35 @@ async function isUrlUnsafe(url) {
   }
 }
 
+// AI-powered deep check
+async function isUrlUnsafeAI(url) {
+  try {
+    const response = await fetch("http://127.0.0.1:8000/analyze-link", {
+      method: "POST",
+      body: JSON.stringify({ url: url }),
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!response.ok) {
+      console.error("AI backend returned error:", response.status);
+      return { unsafe: false, score: 100, adult_analysis: "", kid_analysis: "" };
+    }
+
+    const data = await response.json();
+    console.log("AI response:", data);
+    return {
+      unsafe: data.unsafe,
+      score: data.safety_score,
+      adult_analysis: data.adult_analysis,
+      kid_analysis: data.kid_analysis,
+    };
+  } catch (err) {
+    console.error("AI backend error:", err);
+    return { unsafe: false, score: 100, adult_analysis: "", kid_analysis: "" };
+  }
+}
+
+
 // Listen for tab updates
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   if (

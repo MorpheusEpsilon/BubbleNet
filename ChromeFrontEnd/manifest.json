@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Mini Web Antivirus",
-  "version": "1.0",
+  "version": "2.0",
   "description": "Blocks unsafe websites using Google Safe Browsing",
   "permissions": [
     "tabs",
