@@ -58,10 +58,23 @@ async def analyze_link(request: LinkRequest):
             analysis=adult_analysis
         )
 
+        #Boolean stuff
+        unsafe = any(
+            word in adult_analysis.lower()
+            for word in ["phishing", "malware", "unsafe", "danger", "risky", "adult content"]
+        )
+
+        #return {
+        #    "url": request.url,
+        #    "adult_analysis": adult_analysis,
+        #    "kid_analysis": kid_analysis
+        #}
+
         return {
             "url": request.url,
             "adult_analysis": adult_analysis,
-            "kid_analysis": kid_analysis
+            "kid_analysis": kid_analysis,
+            "unsafe": unsafe  # <-- extension expects this
         }
 
     except Exception as e:
